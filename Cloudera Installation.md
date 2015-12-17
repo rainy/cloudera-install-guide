@@ -65,7 +65,7 @@ NOZEROCONF=yes
 * Enable the name server cache daemon (**nscd**) service <br>
 
 **Step 2:** Sync all the nodes with a time source using NTP (Network Time Protocol) <br>
-* follow the steps [documented here](http://www.cloudera.com/content/cloudera/en/documentation/core/v5-3-x/topics/cm_ig_mysql.html?scroll=cmig_topic_5_5#cmig_topic_5_5_1_unique_1).
+* follow the steps [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/NTP.md).
 
 **Step 3:** Make one user as sudo user, to be used later for SSH Ex: hypers <br>
 ```bash
@@ -203,3 +203,30 @@ echo "gpgcheck = 1" >> /etc/yum.repos.d/cloudera-manager.repo
 
 ## <center> <a name="intro_4"/> Install a MySQL server for CM
 * follow the steps [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/MySQL.md).
+
+
+## <center> <a name="intro_5"/> Install Cloudera Manager
+**Step 1:** Set up a Database for the Cloudera Manager Server <br>
+```bash
+mysql -uroot --password='gurutechhypers' -h cdh01.hypers.com.cn
+    GRANT ALL PRIVILEGES ON scm.* to 'scm'@'%' IDENTIFIED BY 'xRoYuK8ajV';
+    flush privileges;
+    exit;
+```
+
+**Step 2:** Set up an external database and pre-create the schemas needed for your deployment <br>
+```bash
+mysql> create database database DEFAULT CHARACTER SET utf8;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> grant all on database.* TO 'user'@'%' IDENTIFIED BY 'password';
+Query OK, 0 rows affected (0.00 sec)
+```
+* **database**, **user**, and **password** can be any value. The examples match the default names provided in the Cloudera Manager configuration settings:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;**Role                                Database    User     Password**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Activity Monitor                      **amon**        amon     **amon_password**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Reports Manager                       **rman**        rman     **rman_password**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hive Metastore Server                 **metastore**   hive     **hive_password**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Sentry Server                         **sentry**      sentry   **sentry_password**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Cloudera Navigator Audit Server       **nav**         nav      **nav_password**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Cloudera Navigator Metadata Server    **navms**       navms    **navms_password**<br>
