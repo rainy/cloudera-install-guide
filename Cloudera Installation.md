@@ -10,12 +10,13 @@
 <strong> Note: </strong> We need a 64-bit machine for Cloudera cluster set up.
 * <a href="#intro_1"/> Selecting Hardware for Your CDH Cluster
 * <a href="#intro_2"/> Linux configuration/prechecks
-* <a href="#linux_config_lab"/> Install package repositories for MySQL, Cloudera Manager and CDH
+* <a href="#intro_3"/> Install package repositories for Cloudera Manager and CDH
 * <a href="#linux_config_lab"/> Install a MySQL server for CM
 * <a href="#linux_config_lab"/> Install Cloudera Manager
 * <a href="#linux_config_lab"/> Install CDH
 * <a href="#linux_config_lab"/> Testing
 * <a href="#linux_config_lab"/> Kerberize the cluster
+
 
 ## <center> <a name="intro_1"/> Selecting Hardware for Your CDH Cluster
 **Here are the recommended specifications for DataNode/TaskTrackers in a balanced Hadoop cluster:**
@@ -29,6 +30,7 @@
 * 2 quad-/hex-/octo-core CPUs, running at least 2-2.5GHz
 * 64-128GB of RAM
 * Bonded Gigabit Ethernet or 10Gigabit Ethernet
+
 
 ## <center> <a name="intro_2"/> Linux configuration/prechecks
 **Before cluster set up, we need to configure our nodes. Follow the below steps in all nodes.** <br>
@@ -124,13 +126,80 @@ IPV6INIT=no
 *   hard    nofile 655350 
 ```
 
-**Step 9:** (Optional) If you are doing a lot of streaming, set vm.overcommit_memory kernel parameter to 1 <br>
+**Step 9:** Set noatime on your supplementary volumes <br>
+* Set it via mount option in **/etc/fstab**
+```bash
+# vim /etc/fstab
+/dev/sdb1 /data1    ext4    defaults,noatime       0
+```
+
+**Step 10:** Set the reserve space for your supplementary volumes to 0 <br>
+* Set it via mount option in **/etc/fstab**
+```bash
+# vim /etc/fstab
+/dev/sdb1 /data1    ext4    defaults,noatime       0
+```
+
+**Step 11: (Optional)** If you are doing a lot of streaming, set vm.overcommit_memory kernel parameter to 1 <br>
 ```bash
 # sysctl vm.overcommit_memory=1
 # echo "vm.overcommit_memory = 1" >> /etc/sysctl.conf
 ```
 
-**Step 10:** Restart the network <br>
+**Step 12:** Restart the network <br>
 ```bash
 # /etc/init.d/network restart
 ```
+
+
+## <center> <a name="intro_3"/> Install package repositories for Cloudera Manager and CDH
+**Step 1:** Installing and Starting Apache HTTPD <br>
+```bash
+# yum install httpd -y
+# chkconfig httpd on
+# service httpd start
+```
+
+**Step 2:** Download Tarball of CM <br>
+```bash
+# cd /var/www/html/
+# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/CDH-5.5.0/cm5.5.0-centos6.tar.gz
+# tar xzvf cm5.5.0-centos6.tar.gz
+# chmod -R ugo+rX /var/www/html/cm
+# rm -rf cm5.5.0-centos6.tar.gz
+```
+
+**Step 3:** Download Parcel of CDH <br>
+```bash
+# cd /var/www/html/
+# mkdir CDH-5.5.0
+# cd CDH-5.5.0/
+# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/CDH-5.5.0/CDH-5.5.0-1.cdh5.5.0.p0.8-el6.parcel
+# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/CDH-5.5.0/CDH-5.5.0-1.cdh5.5.0.p0.8-el6.parcel.sha1
+# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/CDH-5.5.0/manifest.json
+```
+
+**Step 4:** Download Parcel of KAFKA <br>
+```bash
+# cd /var/www/html/
+# mkdir KAFKA
+# cd KAFKA/
+# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/Kafka/KAFKA-0.8.2.0-1.kafka1.3.2.p0.15-el6.parcel
+# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/Kafka/KAFKA-0.8.2.0-1.kafka1.3.2.p0.15-el6.parcel.sha1
+# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/Kafka/manifest.json
+```
+
+**Step 5:** Enable all nodes to find the packages that you are hosting (Follow the below steps in all nodes) <br>
+* replace **ip-172-31-250-81.cn-north-1.compute.internal** with your local repository's hostname
+```bash
+echo "[cloudera-manager]" > /etc/yum.repos.d/cloudera-manager.repo
+echo "# Packages for Cloudera Manager, Version 5, on RedHat or CentOS 6 x86_64" >> /etc/yum.repos.d/cloudera-manager.repo
+echo "name=Cloudera Manager" >> /etc/yum.repos.d/cloudera-manager.repo
+echo "baseurl = http://ip-172-31-250-81.cn-north-1.compute.internal/cm/5/" >> /etc/yum.repos.d/cloudera-manager.repo
+echo "gpgkey = http://ip-172-31-250-81.cn-north-1.compute.internal/cm/RPM-GPG-KEY-cloudera" >> /etc/yum.repos.d/cloudera-manager.repo
+echo "gpgcheck = 1" >> /etc/yum.repos.d/cloudera-manager.repo
+```
+
+
+## <center> <a name="intro_4"/> Install a MySQL server for CM
+* follow the steps [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/MySQL.md).
