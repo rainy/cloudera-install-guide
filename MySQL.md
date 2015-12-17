@@ -48,11 +48,8 @@ echo "gpgcheck = 0" >> /etc/yum.repos.d/mysql.repo
 **Step 3:** Edit your <code>/etc/my.cnf</code> **before** you start MySQL.  <br>
 * Set the max_connections property according to the size of your cluster:
     *  Allow 100 maximum connections for each database and then add 50 extra connections
-* **Configure MySQL with a replica server**
-    * Comment out the line of <code>server-id</code> if without replica server
-    * <code>server-id</code> with 1,2,3...
-    * <code>auto-increment-increment</code> with 1,2,3...
 ```bash
+# vim /etc/my.cnf
 [mysqld]
 transaction-isolation = READ-COMMITTED
 # Disabling symbolic-links is recommended to prevent assorted security risks;
@@ -121,6 +118,26 @@ pid-file=/var/run/mysqld/mysqld.pid
 [client]
 # Default is Latin1, if you need UTF-8 set this (also in server section)
 default-character-set = utf8
+```
+
+* **Configure MySQL with a replica server**
+    * On the **master** MySQL node
+        * set <code>server-id</code> with 1
+        * modify <code>auto-increment-increment</code> with 1
+```bash
+# vim /etc/my.cnf
+server-id = 1
+auto-increment-offset = 2
+auto-increment-increment = 1
+```
+    * On the **replica** MySQL node
+        * set <code>server-id</code> with 2
+        * modify <code>auto-increment-increment</code> with 2
+```bash
+# vim /etc/my.cnf
+server-id = 2
+auto-increment-offset = 2
+auto-increment-increment = 2
 ```
 
 **Step 4:** Ensure the MySQL server starts at boot  <br>
