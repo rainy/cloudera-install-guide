@@ -45,7 +45,7 @@ echo "gpgcheck = 0" >> /etc/yum.repos.d/mysql.repo
 # sudo -u mysql mysql_install_db
 ```
 
-**Step 3:** Edit your <code>/etc/my.cnf</code> **before** you start MySQL.  <br>
+**Step 3:** Edit your <code>/etc/my.cnf</code> **before** you start MySQL  <br>
 * Set the max_connections property according to the size of your cluster:
     *  Allow 100 maximum connections for each database and then add 50 extra connections
 ```bash
@@ -120,26 +120,6 @@ pid-file=/var/run/mysqld/mysqld.pid
 default-character-set = utf8
 ```
 
-* **Configure MySQL with a replica server**
-    * On the **master** MySQL node
-        * set <code>server-id</code> with 1
-        * modify <code>auto-increment-increment</code> with 1
-```bash
-# vim /etc/my.cnf
-server-id = 1
-auto-increment-offset = 2
-auto-increment-increment = 1
-```
-    * On the **replica** MySQL node
-        * set <code>server-id</code> with 2
-        * modify <code>auto-increment-increment</code> with 2
-```bash
-# vim /etc/my.cnf
-server-id = 2
-auto-increment-offset = 2
-auto-increment-increment = 2
-```
-
 **Step 4:** Ensure the MySQL server starts at boot  <br>
 ```bash
 # chkconfig mysqld on
@@ -170,6 +150,50 @@ Remove test database and access to it [Y/n] Y
 Reload privilege tables now? [Y/n] Y
 All done!
 ```
+
+##Configure MySQL with a replica server
+**Step 1:** Edit your <code>/etc/my.cnf</code> **before** you start MySQL  <br>
+* On the **master** MySQL node<br>
+<code># vim /etc/my.cnf</code><br>
+<code>**server-id = 1** </code><br>
+<code>auto-increment-offset = 2 </code><br>
+<code>auto-increment-increment = **1** </code><p>
+
+
+* On the **replica** MySQL node<br>
+<code># vim /etc/my.cnf</code><br>
+<code>**server-id = 2** </code><br>
+<code>auto-increment-offset = 2 </code><br>
+<code>auto-increment-increment = **2** </code><p>
+
+
+**Step 2:** Retart the MySQL servers <br>
+```bash
+# service mysqld restart
+```
+
+**Step 3:** On the **master** MySQL node, grant replication privileges for all databases <br>
+* Provide the FQDN of your replica's host<br>
+* <code>mysql> **GRANT REPLICATION SLAVE ON \*.\* TO '*user*'@'*FQDN*' IDENTIFIED BY '*password*';**</code><br>
+* <code>mysql> **SET GLOBAL binlog_format = 'ROW';**</code><br>
+* <code>mysql> **FLUSH TABLES WITH READ LOCK**;</code><p>
+
+**Step 4:** Start another terminal session and log into to MySQL. In the new session, show the **master**'s status <br>
+* <code>mysql> **SHOW MASTER STATUS;**</code><br>
+* Note the file name and byte offset. The replica needs this data to sync with the master.<br>
+* Close the second session and remove the lock on the first session.<br>
+* <code>mysql> **UNLOCK TABLES;**</code><p>
+
+**Step 5:** Open a session on the **replica**. Set the environment to locate the master <br>
+* <code>mysql> **CHANGE MASTER TO**<br> **MASTER_HOST='*master host*',**<br> **MASTER_USER='*replica user*',**<br> **MASTER_PASSWORD='*replica password*',**<br> **MASTER_LOG_FILE='*master file name*',**<br> **MASTER_LOG_POS=*master file offset*;**</code><br>
+* Ex:<code>mysql> **CHANGE MASTER TO MASTER_HOST='172.31.250.200', MASTER_USER='backup', MASTER_PASSWORD='xRoYuK8ajV', MASTER_LOG_FILE='mysql-bin.000003', MASTER_LOG_POS=356;**</code><p>
+
+**Step 6:** Initiate slave operation and determine its status <br>
+* <code>mysql> **START SLAVE;**</code><br>
+* <code>mysql> **SHOW SLAVE STATUS \G**</code><br>
+* If successful, the <code>Slave_IO_State</code> field in the output will report <code>Waiting for master to send event</code><br>
+* If unsuccessful, review <code>/var/log/mysqld.log</code> for errors.<p>
+
 
 ##Installing the MySQL JDBC Driver
 * **Follow the below steps in all nodes**
