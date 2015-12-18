@@ -12,10 +12,9 @@
 * <a href="#intro_2"/> Linux configuration/prechecks
 * <a href="#intro_3"/> Install package repositories for Cloudera Manager and CDH
 * <a href="#intro_4"/> Install a MySQL server for CM
-* <a href="#intro_5"/> Install Cloudera Manager
-* <a href="#intro_6"/> Install CDH
-* <a href="#intro_7"/> Testing
-* <a href="#intro_8"/> Kerberize the cluster
+* <a href="#intro_5"/> Install Cloudera Manager and CDH
+* <a href="#intro_6"/> Benchmarking
+* <a href="#intro_7"/> Kerberize the cluster
 
 
 ## <center> <a name="intro_1"/> Selecting Hardware for Your CDH Cluster
@@ -202,10 +201,10 @@ echo "gpgcheck = 1" >> /etc/yum.repos.d/cloudera-manager.repo
 
 
 ## <center> <a name="intro_4"/> Install a MySQL server for CM
-* follow the steps [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/MySQL.md).
+* follow the steps [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/MySQL.md)
 
 
-## <center> <a name="intro_5"/> Install Cloudera Manager
+## <center> <a name="intro_5"/> Install Cloudera Manager and CDH
 **Step 1:** Set up a Database for the Cloudera Manager Server <br>
 ```bash
 mysql -uroot --password='gurutechhypers' -h cdh01.hypers.com.cn
@@ -292,18 +291,20 @@ Query OK, 0 rows affected (0.00 sec)
 * Right-click the logged-in username at the far right of the top navigation bar and select **Change Password**
 * Enter the current password and a new password twice, and then click **Update**
 
-**Step 11:** Test the Installation
-* Running a MapReduce Job
-    * **Parcel** - sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
-    * **Package** - sudo -u hdfs hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
 
+## <center> <a name="intro_6"/> Benchmarking <br>
+**[Michael G. Noll's blog post](http://www.michael-noll.com/blog/2011/04/09/benchmarking-and-stress-testing-an-hadoop-cluster-with-terasort-testdfsio-nnbench-mrbench/) reviews many of benchmark tools** <br>
+**Step 1:** Running a MapReduce Job <br>
+* **Parcel** - sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
+* **Package** - sudo -u hdfs hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
 
+**Step 2:** TeraSort benchmark suite <br>
+* sudo -u hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teragen 1000000 /user/hdfs/terasort-input
+* sudo -u hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar terasort /user/hdfs/terasort-input /user/hdfs/terasort-output
+* sudo -u hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teravalidate /user/hdfs/terasort-output /user/hdfs/terasort-validate
 
-
-
-
-
-
+**Step 3:** NameNode benchmark (nnbench) <br>
+* hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-2.6.0-mr1-cdh5.5.0.jar nnbench -operation create_write -maps 12 -reduces 6 -blockSize 1 -bytesToWrite 0 -numberOfFiles 1000 -replicationFactorPerFile 3 -readFileAfterOpen true -baseDir /benchmarks/NNBench-`hostname -s`
 
 
 
