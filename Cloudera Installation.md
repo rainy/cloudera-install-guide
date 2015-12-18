@@ -11,11 +11,11 @@
 * <a href="#intro_1"/> Selecting Hardware for Your CDH Cluster
 * <a href="#intro_2"/> Linux configuration/prechecks
 * <a href="#intro_3"/> Install package repositories for Cloudera Manager and CDH
-* <a href="#linux_config_lab"/> Install a MySQL server for CM
-* <a href="#linux_config_lab"/> Install Cloudera Manager
-* <a href="#linux_config_lab"/> Install CDH
-* <a href="#linux_config_lab"/> Testing
-* <a href="#linux_config_lab"/> Kerberize the cluster
+* <a href="#intro_4"/> Install a MySQL server for CM
+* <a href="#intro_5"/> Install Cloudera Manager
+* <a href="#intro_6"/> Install CDH
+* <a href="#intro_7"/> Testing
+* <a href="#intro_8"/> Kerberize the cluster
 
 
 ## <center> <a name="intro_1"/> Selecting Hardware for Your CDH Cluster
@@ -230,3 +230,89 @@ Query OK, 0 rows affected (0.00 sec)
     * <code>Sentry Server                         sentry      sentry   sentry_password</code><br>
     * <code>Cloudera Navigator Audit Server       nav         nav      nav_password</code><br>
     * <code>Cloudera Navigator Metadata Server    navms       navms    navms_password</code><p>
+
+**Step 3:** Install the Oracle JDK <br>
+* Install the Oracle Java Development Kit (JDK) on the Cloudera Manager Server host <br>
+```bash
+# yum install oracle-j2sdk1.7 -y
+```
+
+**Step 4:** Install the Cloudera Manager Server Packages <br>
+* On the Cloudera Manager Server host, type the following commands to install the Cloudera Manager packages <br>
+```bash
+# yum install cloudera-manager-daemons cloudera-manager-server -y
+```
+
+**Step 4:** Set up a Database for the Cloudera Manager Server <br>
+* Running the script when MySQL is installed on another host
+* This example explains how to run the script on the Cloudera Manager Server host (myhost2) and create and use a temporary MySQL user account to connect to MySQL remotely on the MySQL host (myhost1) 
+* On the Cloudera Manager Server host (myhost2), run the script<br>
+<code>/usr/share/cmf/schema/scm_prepare_database.sh mysql -h *cdh01.hypers.com.cn* -u*root* -p*gurutechhypers* --scm-host *cdh01.hypers.com.cn* *scm* *scm* *xRoYuK8ajV*</code><p>
+
+**Step 5:** Start the Cloudera Manager Server <br>
+```bash
+# chkconfig cloudera-scm-server on
+# service cloudera-scm-server start
+```
+
+**Step 6:** Start and Log into the Cloudera Manager Admin Console <br>
+* In a web browser, enter **http://Server host:7180**
+* Log into Cloudera Manager Admin Console. The default credentials are: **Username:** admin **Password:** admin
+* After logging in, the **Cloudera Manager End User License Terms and Conditions** page displays. Read the terms and conditions and then select **Yes** to accept them
+* Click **Continue**
+
+**Step 7:** Choose Cloudera Manager Edition and Hosts 
+* When you start the Cloudera Manager Admin Console, the install wizard starts up. Click **Continue** to get started
+* Choose which **edition** to install
+* (Optional) If you elect Cloudera Enterprise, install a license
+* Click **Continue** to proceed with the installation
+* Enter the cluster hostnames or IP addresses. You can also specify hostname and IP address ranges. Click **Search**
+* Click **Continue**. The Select Repository screen displays
+
+**Step 8:** Choose the Software Installation Type and Install Software 
+* Parcel Repository - In the **Remote Parcel Repository URLs** field, click the **+** button and enter the URL of the repository
+* Select the release of Cloudera Manager Agent. You can choose either the version that matches the Cloudera Manager Server you are currently using or specify a version in a custom repository. If you opted to use custom repositories for installation files, you can provide a GPG key URL that applies for all repositories. Click **Continue**
+* Select the **Install Oracle Java SE Development Kit (JDK)** checkbox to allow Cloudera Manager to install the JDK on each cluster host or leave deselected if you installed it. If checked, your local laws permit you to deploy unlimited strength encryption, and you are running a secure cluster, select the **Install Java Unlimited Strength Encryption Policy Files** checkbox. Click **Continue**
+* **Do NOT use single user mode when asked**. Click **Continue**
+* If you chose to have Cloudera Manager install software, specify host installation properties
+    * Select **root** or enter the user name for an account that has password-less sudo permission
+    * Select an authentication method
+* Click **Continue**. When the **Continue** button at the bottom of the screen turns **blue**, the installation process is completed
+* Click **Continue**. The Host Inspector runs to validate the installation and provides a summary of what it finds, including all the versions of the installed components. If the validation is successful, click **Finish**
+
+**Step 9:** Add Services 
+* In the first page of the Add Services wizard, choose the combination of services to install and whether to install Cloudera Navigator. Click **Continue**
+* Customize the assignment of role instances to hosts. When you are satisfied with the assignments, click **Continue**
+* On the Database Setup page, configure settings for required databases. Click **Test Connection** to confirm that Cloudera Manager can communicate with the database using the information you have supplied. If the test succeeds in all cases, click **Continue**
+* Review the configuration changes to be applied. Confirm the settings entered for file system paths. Click **Continue**. The wizard starts the services
+* When all of the services are started, click **Continue**
+* Click **Finish** to proceed to the **Cloudera Manager Admin Console Home Page**
+
+**Step 10:** Change the Default Administrator Password 
+* Right-click the logged-in username at the far right of the top navigation bar and select **Change Password**
+* Enter the current password and a new password twice, and then click **Update**
+
+**Step 11:** Test the Installation
+* Running a MapReduce Job
+    * **Parcel** - sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
+    * **Package** - sudo -u hdfs hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
