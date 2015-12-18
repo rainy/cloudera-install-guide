@@ -295,20 +295,20 @@ Query OK, 0 rows affected (0.00 sec)
 ## <center> <a name="intro_6"/> Benchmarking <br>
 **[Michael G. Noll's blog post](http://www.michael-noll.com/blog/2011/04/09/benchmarking-and-stress-testing-an-hadoop-cluster-with-terasort-testdfsio-nnbench-mrbench/) reviews many of benchmark tools** <br>
 **Step 1:** Running a MapReduce Job <br>
-* **Parcel** - sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
-* **Package** - sudo -u hdfs hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100
+* **Parcel** - <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</code>
+* **Package** - <code>sudo -u hdfs hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</code>
 
 **Step 2:** TeraSort benchmark suite <br>
-* sudo -u hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teragen 1000000 /user/hdfs/terasort-input
-* sudo -u hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar terasort /user/hdfs/terasort-input /user/hdfs/terasort-output
-* sudo -u hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teravalidate /user/hdfs/terasort-output /user/hdfs/terasort-validate
+* <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teragen 1000000 /user/hdfs/terasort-input</code>
+* <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar terasort /user/hdfs/terasort-input /user/hdfs/terasort-output</code>
+* <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teravalidate /user/hdfs/terasort-output /user/hdfs/terasort-validate</code>
 
 **Step 3:** NameNode benchmark (nnbench) <br>
-* hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-2.6.0-mr1-cdh5.5.0.jar nnbench -operation create_write -maps 12 -reduces 6 -blockSize 1 -bytesToWrite 0 -numberOfFiles 1000 -replicationFactorPerFile 3 -readFileAfterOpen true -baseDir /benchmarks/NNBench-`hostname -s`
+* <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-2.6.0-mr1-cdh5.5.0.jar nnbench -operation create_write -maps 12 -reduces 6 -blockSize 1 -bytesToWrite 0 -numberOfFiles 1000 -replicationFactorPerFile 3 -readFileAfterOpen true -baseDir /benchmarks/NNBench</code>
 
 
-
-
+## <center> <a name="intro_7"/> Kerberize the cluster <br>
+* follow the steps [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/Kerberize.md)
 
 
 
