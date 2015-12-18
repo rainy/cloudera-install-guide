@@ -1,3 +1,11 @@
+# <center> Introductions & Overview </center>
+* <a href="#intro_1"/> Install package repositories for MySQL
+* <a href="#intro_2"/> Installing the MySQL Server
+* <a href="#intro_3"/> Configure MySQL with a replica server
+* <a href="#intro_4"/> Installing the MySQL JDBC Driver
+
+
+## <center> <a name="intro_1"/> Install package repositories for MySQL
 **Step 1:** Download Tarball of CM <br>
 ```bash
 # mkdir -p /var/www/html/mysql/packages
@@ -23,7 +31,7 @@
 # createrepo ./
 ```
 
-**Step 2:** Enable all nodes to find the packages that you are hosting (Follow the below steps in all nodes) <br>
+**Step 2:** Enable all nodes to find the packages that you are hosting (**Follow the below steps in all nodes**) <br>
 * replace **ip-172-31-250-81.cn-north-1.compute.internal** with your local repository's hostname
 ```bash
 echo "[mysql-community]" > /etc/yum.repos.d/mysql.repo
@@ -34,7 +42,8 @@ echo "enabled = 1" >> /etc/yum.repos.d/mysql.repo
 echo "gpgcheck = 0" >> /etc/yum.repos.d/mysql.repo
 ```
 
-##Installing the MySQL Server
+
+## <center> <a name="intro_2"/> Installing the MySQL Server
 **Step 1:** Install the MySQL database <br>
 ```bash
 # yum install mysql mysql-server -y
@@ -151,7 +160,8 @@ Reload privilege tables now? [Y/n] Y
 All done!
 ```
 
-##Configure MySQL with a replica server
+
+## <center> <a name="intro_3"/> Configure MySQL with a replica server
 **Step 1:** Edit your <code>/etc/my.cnf</code> **before** you start MySQL  <br>
 * On the **master** MySQL node<br>
 <code># vim /etc/my.cnf</code><br>
@@ -195,7 +205,7 @@ All done!
 * If unsuccessful, review <code>/var/log/mysqld.log</code> for errors.<p>
 
 
-##Installing the MySQL JDBC Driver
+## <center> <a name="intro_4"/> Installing the MySQL JDBC Driver
 * **Follow the below steps in all nodes**
 ```bash
 # mkdir /usr/share/java/
