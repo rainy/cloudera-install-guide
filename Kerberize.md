@@ -103,20 +103,17 @@ If you want to know more about Kerberos. Check out this [**link**](https://acces
 ## <center> <a name="intro_4"/> Test Kerberos Authentication
 **Step 1:** (Optional) If Linux box is already integrated with AD (or other LDAP services) to do authentication, please ignore this step. Make sure all the hosts in the cluster have a Unix user account with same name as the first component of the user's principal name. Also to allow users submitting jobs, please look at the MapReduce configuration for **banned.users** and **min.user.id**, usually **banned.users** is set to mapred, hdfs and bin to prevent jobs from being submitted via those user accounts. And the default setting for the **min.user.id** property is 1000 to prevent jobs from being submitted with a user ID less than 1000. You can make changes to those two configurations if necessary.<br>
 
-**Step 2:** Create user directory under */user* on HDFS for each user account. Change the owner and group of that directory to be the user. Assume you have the hdfs Keytab files like *hdfs.keytab*, so first you should login as *hdfs* user:
+**Step 2:** Create user directory under */user* on HDFS for each user account. Change the owner and group of that directory to be the user. Assume you have the hdfs Keytab files like *hdfs.keytab*, so first you should login as *hdfs* user:<br>
 <code># kinit hdfs</code> or <code># kinit -k -t hdfs.keytab hdfs</code><br>
 <code># hadoop fs -mkdir /user/rainy</code><br>
 <code># hadoop fs -chown rainy /user/rainy</code><p>
 
 **Step 3:** Create the user principal, and authenticate the user<br>
-* create user principal
-<code># kadmin.local -q "addprinc -randkey rainy"</code><br>
-* retrieve the keytab file
-<code># kadmin.local -q "xst -norandkey -k rainy.keytab rainy@SEBC.SIN"</code><br>
-* authenticate the user
-<code># kinit -k -t rainy.keytab rainy</code><br>
-* list the authenticated user
-<code># klist</code><p>
+* create user principal: <code># kadmin.local -q "addprinc -randkey rainy"</code><br>
+* retrieve the keytab file: <code># kadmin.local -q "xst -norandkey -k rainy.keytab rainy@SEBC.SIN"</code><br>
+* authenticate the user: <code># kinit -k -t rainy.keytab rainy</code><br>
+* list the authenticated user: <code># klist</code><br>
+* If you want to destroy the Kerberos ticket, please type "kdestroy"<p>
 
 
 
