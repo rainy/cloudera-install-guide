@@ -222,13 +222,15 @@ mysql> grant all on database.* TO 'user'@'%' IDENTIFIED BY 'password';
 Query OK, 0 rows affected (0.00 sec)
 ```
 * **database**, **user**, and **password** can be any value. The examples match the default names provided in the Cloudera Manager configuration settings:<br>
-    * <code>**Role                                Database    User     Password**</code><br>
-    * <code>Activity Monitor                      amon        amon     amon_password</code><br>
-    * <code>Reports Manager                       rman        rman     rman_password</code><br>
-    * <code>Hive Metastore Server                 metastore   hive     hive_password</code><br>
-    * <code>Sentry Server                         sentry      sentry   sentry_password</code><br>
-    * <code>Cloudera Navigator Audit Server       nav         nav      nav_password</code><br>
-    * <code>Cloudera Navigator Metadata Server    navms       navms    navms_password</code><p>
+
+| Role | Database | User | Password |
+| ------------ | ------------ | ------------ | ------------ |
+| Activity Monitor | amon | amon | amon_password |
+| Reports Manager | rman | rman | rman_password |
+| Hive Metastore Server | metastore | hive | hive_password |
+| Sentry Server | sentry | sentry | sentry_password |
+| Cloudera Navigator Audit Server | nav | nav | nav_password |
+| Cloudera Navigator Metadata Server | navms | navms | navms_password |
 
 **Step 3:** Install the Oracle JDK <br>
 * Install the Oracle Java Development Kit (JDK) on the Cloudera Manager Server host <br>
