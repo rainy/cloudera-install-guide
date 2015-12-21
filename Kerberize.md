@@ -18,31 +18,30 @@ If you want to know more about Kerberos. Check out this [**link**](https://acces
 ```
 
 **Step 2:** Modify the /etc/krb5.conf configuration <br>
-```bash
-# vim /etc/krb5.conf
-[logging]
- default = FILE:/var/log/krb5libs.log
- kdc = FILE:/var/log/krb5kdc.log
- admin_server = FILE:/var/log/kadmind.log
+<code># vim /etc/krb5.conf</code><br>
+<code>[logging]</code><br>
+<code> default = FILE:/var/log/krb5libs.log</code><br>
+<code> kdc = FILE:/var/log/krb5kdc.log</code><br>
+<code> admin_server = FILE:/var/log/kadmind.log</code><br>
+<br>
+<code>[libdefaults]</code><br>
+<code> default_realm = **SEBC.SIN**</code><br>
+<code> dns_lookup_realm = false</code><br>
+<code> dns_lookup_kdc = false</code><br>
+<code> ticket_lifetime = 24h</code><br>
+<code> renew_lifetime = 7d</code><br>
+<code> forwardable = true</code><br>
+<br>
+<code>[realms]</code><br>
+<code> **SEBC.SIN** = {</code><br>
+<code>  kdc = **ip-172-31-250-81.cn-north-1.compute.internal**</code><br>
+<code>  admin_server = **ip-172-31-250-81.cn-north-1.compute.internal**</code><br>
+<code> }</code><br>
+<br>
+<code>[domain_realm]</code><br>
+<code> **.cn-north-1.compute.internal** = **SEBC.SIN**</code><br>
+<code> **cn-north-1.compute.internal** = **SEBC.SIN**</code><p>
 
-[libdefaults]
- default_realm = SEBC.SIN
- dns_lookup_realm = false
- dns_lookup_kdc = false
- ticket_lifetime = 24h
- renew_lifetime = 7d
- forwardable = true
-
-[realms]
- SEBC.SIN = {
-  kdc = ip-172-31-250-81.cn-north-1.compute.internal
-  admin_server = ip-172-31-250-81.cn-north-1.compute.internal
- }
-
-[domain_realm]
- .cn-north-1.compute.internal = SEBC.SIN
- cn-north-1.compute.internal = SEBC.SIN
-```
 
 
 
