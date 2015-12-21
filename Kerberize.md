@@ -103,13 +103,13 @@ If you want to know more about Kerberos. Check out this [**link**](https://acces
 * On a cluster host, type this command to view the encryption type in use:
 <code># klist -e </code><br>
   * If AES is being used, output like the following is displayed after you type the klist command (note that AES-256 is included in the output):
-```bash
-Ticket cache: FILE:/tmp/krb5cc_0
-Default principal: test@Cloudera Manager
-Valid starting     Expires            Service principal
-05/19/15 13:25:04  05/20/15 13:25:04  krbtgt/Cloudera Manager@Cloudera Manager
-    Etype (skey, tkt): AES-256 CTS mode with 96-bit SHA-1 HMAC, AES-256 CTS mode with 96-bit SHA-1 HMAC 
-```
+  ```bash
+  Ticket cache: FILE:/tmp/krb5cc_0
+  Default principal: test@Cloudera Manager
+  Valid starting     Expires            Service principal
+  05/19/15 13:25:04  05/20/15 13:25:04  krbtgt/Cloudera Manager@Cloudera Manager
+      Etype (skey, tkt): AES-256 CTS mode with 96-bit SHA-1 HMAC, AES-256 CTS mode with 96-bit SHA-1 HMAC 
+  ```
 
 **Step 5:** Properly configure Kerberos setting, navigate to "**Administration**" -> "**Security**" -> "**Enable Kerberos**"<br>
 * KDC Type: MIT KDC
@@ -136,7 +136,7 @@ Valid starting     Expires            Service principal
 
 ## <center> <a name="intro_4"/> Create the HDFS Superuser
 **Step 1:** In the kadmin.local or kadmin shell, type the following command to create a Kerberos principal called hdfs<br>
-<code>kadmin:  addprinc hdfs@YOUR-LOCAL-REALM.COM</code><br>
+ <code>kadmin:  addprinc hdfs@YOUR-LOCAL-REALM.COM</code><br>
   * **Note:** This command prompts you to create a password for the hdfs principal. You should use a strong password because having access to this principal provides superuser access to all of the files in HDFS.
 
 **Step 2:** To run commands as the HDFS superuser, you must obtain Kerberos credentials for the hdfs principal. To do so, run the following command and provide the appropriate password when prompted<br>
