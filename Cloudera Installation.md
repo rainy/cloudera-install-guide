@@ -68,7 +68,7 @@ NOZEROCONF=yes
 
 **Step 3:** Make one user as sudo user, to be used later for SSH Ex: hypers <br>
 ```bash
-#vim /etc/sudoers
+# vim /etc/sudoers
 #Add the below line:
 dummyuser ALL=(ALL) NOPASSWD:ALL
 ```
@@ -129,14 +129,14 @@ IPV6INIT=no
 * Set it via mount option in **/etc/fstab**
 ```bash
 # vim /etc/fstab
-/dev/sdb1 /data1    ext4    defaults,noatime       0
+/dev/sdb1 /data1    ext4    defaults,noatime       0 0
 ```
 
 **Step 10:** Set the reserve space for your supplementary volumes to 0 <br>
 * Set it via mount option in **/etc/fstab**
 ```bash
 # vim /etc/fstab
-/dev/sdb1 /data1    ext4    defaults,noatime       0
+/dev/sdb1 /data1    ext4    defaults,noatime       0 0
 ```
 
 **Step 11: (Optional)** If you are doing a lot of streaming, set vm.overcommit_memory kernel parameter to 1 <br>
