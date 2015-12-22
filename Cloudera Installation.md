@@ -273,12 +273,12 @@ Query OK, 0 rows affected (0.00 sec)
 **Step 8:** Choose the Software Installation Type and Install Software 
 * Parcel Repository - In the **Remote Parcel Repository URLs** field, click the **+** button and enter the URL of the repository
    * replace **ip-172-31-250-81.cn-north-1.compute.internal** with your local repository's hostname
-   * Ex. <code>http://ip-172-31-250-81.cn-north-1.compute.internal/CDH-5.5.0</code>
-   * Ex. <code>http://ip-172-31-250-81.cn-north-1.compute.internal/KAFKA</code>
+   * <code>http://ip-172-31-250-81.cn-north-1.compute.internal/CDH-5.5.0</code>
+   * <code>http://ip-172-31-250-81.cn-north-1.compute.internal/KAFKA</code>
 * Select the release of Cloudera Manager Agent. You can choose either the version that matches the Cloudera Manager Server you are currently using or specify a version in a custom repository. If you opted to use custom repositories for installation files, you can provide a GPG key URL that applies for all repositories. Click **Continue**
    * replace **ip-172-31-250-81.cn-north-1.compute.internal** with your local repository's hostname
-   * Ex. <code>http://ip-172-31-250-81.cn-north-1.compute.internal/cm/5/</code>
-   * Ex. <code>http://ip-172-31-250-81.cn-north-1.compute.internal/cm/RPM-GPG-KEY-cloudera</code>
+   * <code>http://ip-172-31-250-81.cn-north-1.compute.internal/cm/5/</code>
+   * <code>http://ip-172-31-250-81.cn-north-1.compute.internal/cm/RPM-GPG-KEY-cloudera</code>
 * Select the **Install Oracle Java SE Development Kit (JDK)** checkbox to allow Cloudera Manager to install the JDK on each cluster host or leave deselected if you installed it. If checked, your local laws permit you to deploy unlimited strength encryption, and you are running a secure cluster, select the **Install Java Unlimited Strength Encryption Policy Files** checkbox. Click **Continue**
 * **Do NOT use single user mode when asked**. Click **Continue**
 * If you chose to have Cloudera Manager install software, specify host installation properties
