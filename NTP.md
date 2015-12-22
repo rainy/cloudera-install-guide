@@ -1,5 +1,5 @@
 ##NTP Server
-* **0.rhel.pool.ntp.org** is the NTP synchronization source
+* replacing **0.rhel.pool.ntp.org** with your NTP synchronization source
 ```bash
 echo "driftfile /var/lib/ntp/drift" > /etc/ntp.conf 
 echo "#restrict default nomodify notrap nopeer noquery" >> /etc/ntp.conf
@@ -23,7 +23,7 @@ service ntpd restart
 ```
 
 ##NTP Client
-* replace **ip-172-31-250-81.cn-north-1.compute.internal** with your NTP Server's hostname
+* replacing **ip-172-31-250-81.cn-north-1.compute.internal** with your NTP Server's hostname
 ```bash
 # vim /etc/ntp.conf
 #Add the below line:
