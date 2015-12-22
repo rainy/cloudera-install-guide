@@ -316,7 +316,9 @@ Query OK, 0 rows affected (0.00 sec)
 
 
 ## <center> <a name="intro_7"/> Kerberize the cluster <br>
-* follow the steps [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/Kerberize.md)
+* Document of Cloudera Manager integrate MIT Kerberos [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/Kerberize.md)
+* Document of Cloudera Manager integrate FreeIPA by Smoak.Wu of Hypers [documented here](https://git.hypers.com/OP/cloudera-krb)
+
 
 
 
