@@ -314,15 +314,17 @@ Query OK, 0 rows affected (0.00 sec)
 **Step 3:** NameNode benchmark (nnbench) <br>
 * <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-2.6.0-mr1-cdh5.5.0.jar nnbench -operation create_write -maps 12 -reduces 6 -blockSize 1 -bytesToWrite 0 -numberOfFiles 1000 -replicationFactorPerFile 3 -readFileAfterOpen true -baseDir /benchmarks/NNBench</code>
 
-**Validate:** Spark <br>
-* <code>spark-submit --num-executors 5 --master yarn-cluster --class org.apache.spark.examples.SparkPi  /opt/cloudera/parcels/CDH/jars/spark-examples-1.6.0-cdh5.7.1-hadoop2.6.0-cdh5.7.1.jar 100</code>
+
 
 ## <center> <a name="intro_7"/> Kerberize the cluster <br>
 * Document of Cloudera Manager integrate MIT Kerberos [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/Kerberize.md)
 * Document of Cloudera Manager integrate FreeIPA by Smoak.Wu of Hypers [documented here](https://git.hypers.com/OP/cloudera-krb)
 
-
-
+## <center> <a name="intro_7"/> Validate <br>
+**MapReduce:** <br>
+* <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</code>
+**Spark:** <br>
+* <code>spark-submit --num-executors 5 --master yarn-cluster --class org.apache.spark.examples.SparkPi  /opt/cloudera/parcels/CDH/jars/spark-examples-1.6.0-cdh5.7.1-hadoop2.6.0-cdh5.7.1.jar 100</code>
 
 
 
