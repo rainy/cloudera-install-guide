@@ -15,6 +15,7 @@
 * <a href="#intro_5"/> Install Cloudera Manager and CDH
 * <a href="#intro_6"/> Benchmarking
 * <a href="#intro_7"/> Kerberize the cluster
+* <a href="#intro_8"/> Validate
 
 
 ## <center> <a name="intro_1"/> Selecting Hardware for Your CDH Cluster
@@ -320,7 +321,7 @@ Query OK, 0 rows affected (0.00 sec)
 * Document of Cloudera Manager integrate MIT Kerberos [documented here](https://github.com/rainy/cloudera-install-guide/blob/master/Kerberize.md)
 * Document of Cloudera Manager integrate FreeIPA by Smoak.Wu of Hypers [documented here](https://git.hypers.com/OP/cloudera-krb)
 
-## <center> <a name="intro_7"/> Validate <br>
+## <center> <a name="intro_8"/> Validate <br>
 **MapReduce:** <br>
 * <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</code>
 **Spark:** <br>
