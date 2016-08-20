@@ -323,7 +323,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 ## <center> <a name="intro_8"/> Validate <br>
 **MapReduce:** <br>
-* <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</code>
+* <code>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</code><br>
 **Spark:** <br>
 * <code>spark-submit --num-executors 5 --master yarn-cluster --class org.apache.spark.examples.SparkPi  /opt/cloudera/parcels/CDH/jars/spark-examples-1.6.0-cdh5.7.1-hadoop2.6.0-cdh5.7.1.jar 100</code>
 
