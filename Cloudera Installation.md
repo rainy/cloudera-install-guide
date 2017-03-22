@@ -209,6 +209,7 @@ echo "gpgcheck = 1" >> /etc/yum.repos.d/cloudera-manager.repo
 **Step 1:** Set up a Database for the Cloudera Manager Server <br>
 ```bash
 mysql -uroot --password='gurutechhypers' -h cdh01.hypers.com.cn
+    GRANT ALL PRIVILEGES ON *.* to 'root'@'%' IDENTIFIED BY 'Ab123456.' with grant option;
     GRANT ALL PRIVILEGES ON scm.* to 'scm'@'%' IDENTIFIED BY 'xRoYuK8ajV';
     flush privileges;
     exit;
