@@ -210,6 +210,6 @@ All done!
 ```bash
 # mkdir /usr/share/java/
 # cd /usr/share/java/
-# wget https://s3.cn-north-1.amazonaws.com.cn/hypers/cdh/mysql/mysql-connector-java-5.1.37-bin.jar
+# wget http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.37/mysql-connector-java-5.1.37.jar
 # ln -s mysql-connector-java-5.1.37-bin.jar mysql-connector-java.jar
 ```
